@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <property name="numerico" value="java.sql.Types.NUMERIC(19,0)" dbms="mysql, postgresql"/>
+    <property name="descricao" value="java.sql.Types.VARCHAR(255)" dbms="mysql, postgresql"/>
+
+    <includeAll path="changelog" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
