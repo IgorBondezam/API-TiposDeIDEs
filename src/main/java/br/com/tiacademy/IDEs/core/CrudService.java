@@ -1,6 +1,7 @@
 package br.com.tiacademy.IDEs.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Objects;

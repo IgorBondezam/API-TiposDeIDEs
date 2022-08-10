@@ -9,20 +9,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class CrudController<T, ID> {
+public abstract class CrudController<T extends CrudDomain<ID>, D, ID> {
+
+    @Autowired(required = false)
+    protected CrudConverter<T, D> converter;
+
+    @Autowired
+    protected CrudRepository<T, ID> repository;
 
     @Autowired
     protected CrudService<T, ID> service;
 
 
-    @GetMapping
+    @GetMapping("/loop")
     public ResponseEntity<List<T>> listar(){
         var listaEntidade = service.listar();
         return ResponseEntity.ok(listaEntidade);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<T> especifico(@PathVariable("id")ID id){
+    public ResponseEntity<D> especifico(@PathVariable("id")ID id){
 
         var porId = service.porId(id);
 
@@ -30,25 +36,28 @@ public abstract class CrudController<T, ID> {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(porId);
+        return ResponseEntity.ok(converter.entidadeParaDTO(porId));
     }
 
     @PostMapping
-    public ResponseEntity<T> criar(@RequestBody T entidade){
+    public ResponseEntity<D> criar(@RequestBody D dto){
+
+        var entidade = converter.dtoParaEntidade(dto);
         var salvo = service.criar(entidade);
-        return ResponseEntity.ok(salvo);
+        return ResponseEntity.ok(converter.entidadeParaDTO(salvo));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<T> modificar(@PathVariable("id")ID id, @RequestBody T entidade){
-        var mudar = service.editar(id, entidade);
-        return ResponseEntity.ok(mudar);
+    public ResponseEntity<D> modificar(@PathVariable("id")ID id, @RequestBody D dto){
+        var novaEntidade = converter.dtoParaEntidade(dto);
+        var mudar = service.editar(id,novaEntidade);
+        return ResponseEntity.ok(converter.entidadeParaDTO(mudar));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable("id")ID id){
         service.excluir(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -7,24 +7,23 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class IDEs implements Serializable, CrudDomain<Long> {
+public class Linguagem implements Serializable, CrudDomain<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
     private String linguagem;
-    private String empresa;
+    private String uso;
 
-    @OneToMany(mappedBy = "linguagem_id")
-    private List<Linguagem> linguagem_id = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "linguagem_id", referencedColumnName="id")
+    private IDEs linguagem_id;
 
 }

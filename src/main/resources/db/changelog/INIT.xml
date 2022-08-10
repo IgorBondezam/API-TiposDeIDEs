@@ -32,4 +32,39 @@
         <addAutoIncrement tableName="IDEs" columnName="ID" columnDataType="int" incrementBy="1" startWith="1"/>
 
     </changeSet>
+
+
+    <changeSet id="2" author="Igor">
+
+        <preConditions onFail="MARK_RAN" onFailMessage="Tabela já criada.">
+            <not>
+                <tableExists tableName="Linguagem"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="Linguagem">
+
+            <column name="Id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_Linguagem"/>
+            </column>
+
+            <column name="Linguagem" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="Uso" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="linguagem_id" type="INT">
+                <constraints foreignKeyName="FK_linguagem_ides" referencedColumnNames="id"
+                             referencedTableName="IDEs"/>
+            </column>
+
+        </createTable>
+
+        <addAutoIncrement tableName="Linguagem" columnName="Id" columnDataType="INT" incrementBy="1" startWith="1"/>
+
+    </changeSet>
+
 </databaseChangeLog>
