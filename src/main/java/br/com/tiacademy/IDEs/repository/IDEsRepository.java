@@ -1,6 +1,7 @@
 package br.com.tiacademy.IDEs.repository;
 
 import br.com.tiacademy.IDEs.DTO.IDEsDTO;
+import br.com.tiacademy.IDEs.core.CrudConverter;
 import br.com.tiacademy.IDEs.core.CrudRepository;
 import br.com.tiacademy.IDEs.domain.IDEs;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,13 +15,13 @@ import java.util.List;
 public interface IDEsRepository extends CrudRepository<IDEs, Long> {
 
     @Query(value = "select i from IDEs i where i.nome = :nome")
-    IDEs consultarPeloNome(@Param("nome")String nome);
+    List<IDEs> consultarPeloNome(@Param("nome")String nome);
 
 
-    IDEs findByNome(String nome);
+    List<IDEs> findByNome(String nome);
 
 
-    @Query(value = "select * from IDEs i", nativeQuery = true)
+    @Query(value = "select * from ides i order by linguagem asc", nativeQuery = true)
     List<IDEs> findAllNative();
 
 

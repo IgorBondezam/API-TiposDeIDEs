@@ -15,7 +15,7 @@ public interface LinguagemRepository extends CrudRepository<Linguagem, Long> {
     List<Linguagem> consultarPelolinguagem(@Param("linguagem") String linguagem);
 
 
-    Linguagem findBylinguagem(String linguagem);
+    List<Linguagem> findBylinguagem(String linguagem);
 
 
 }

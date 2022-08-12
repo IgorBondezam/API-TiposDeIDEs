@@ -24,7 +24,7 @@ public class IDEs implements Serializable, CrudDomain<Long> {
     private String linguagem;
     private String empresa;
 
-    @OneToMany(mappedBy = "linguagem_id")
-    private List<Linguagem> linguagem_id = new ArrayList<>();
+    @OneToMany(mappedBy = "linguagemId")
+    private List<Linguagem> idLinguagem = new ArrayList<>();
 
 }

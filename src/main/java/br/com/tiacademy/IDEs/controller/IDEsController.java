@@ -3,6 +3,7 @@ package br.com.tiacademy.IDEs.controller;
 import br.com.tiacademy.IDEs.DTO.IDEsDTO;
 import br.com.tiacademy.IDEs.DTO.LinguagemDTO;
 import br.com.tiacademy.IDEs.core.CrudController;
+import br.com.tiacademy.IDEs.core.CrudConverter;
 import br.com.tiacademy.IDEs.domain.IDEs;
 import br.com.tiacademy.IDEs.repository.IDEsRepository;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ public class IDEsController extends CrudController<IDEs,IDEsDTO, Long> {
         return (IDEsRepository) repository;
     }
 
+
+    //Lista findAll convertido para DTO
     @GetMapping
     public ResponseEntity<List<IDEsDTO>> listaDto() {
         var ides = getRepository().findAll();
@@ -30,22 +33,65 @@ public class IDEsController extends CrudController<IDEs,IDEsDTO, Long> {
                 idEs.getNome(),
                 idEs.getLinguagem(),
                 idEs.getEmpresa(),
-                idEs.getLinguagem_id().stream().map(linguagem -> new LinguagemDTO(linguagem.getId(),
+                idEs.getIdLinguagem().stream().map(linguagem -> new LinguagemDTO(linguagem.getId(),
                         linguagem.getLinguagem(),
                         linguagem.getUso())).collect(Collectors.toList())
         )).collect(Collectors.toList());
         return ResponseEntity.ok(idesDto);
     }
 
+    //@Query(value = "select i from IDEs i where i.nome = :nome")
     @GetMapping("/Eclipse")
-    public IDEs ideEclip(){return this.getRepository().consultarPeloNome("Eclipse");}
+    public List<IDEsDTO> ideEclip(){
+        var listQides = this.getRepository().consultarPeloNome("Eclipse");
 
+        var idesDto = listQides.stream()
+                .map(idEs -> new IDEsDTO(idEs.getId(),
+                        idEs.getNome(),
+                        idEs.getLinguagem(),
+                        idEs.getEmpresa(),
+                        idEs.getIdLinguagem().stream().map(linguagem -> new LinguagemDTO(linguagem.getId(),
+                                linguagem.getLinguagem(),
+                                linguagem.getUso())).collect(Collectors.toList())
+                )).collect(Collectors.toList());
+        return idesDto;
+    }
+
+
+    //List<IDEs> findByNome(String nome);
     @GetMapping("/Intellj")
-    public IDEs ideIntell(){return this.getRepository().findByNome("Intell");}
+    public List<IDEsDTO> ideIntell(){
+        var listQides = this.getRepository().findByNome("Intellj");
 
+        var idesDto = listQides.stream()
+                .map(idEs -> new IDEsDTO(idEs.getId(),
+                        idEs.getNome(),
+                        idEs.getLinguagem(),
+                        idEs.getEmpresa(),
+                        idEs.getIdLinguagem().stream().map(linguagem -> new LinguagemDTO(linguagem.getId(),
+                                linguagem.getLinguagem(),
+                                linguagem.getUso())).collect(Collectors.toList())
+                )).collect(Collectors.toList());
+        return idesDto;
+    }
+
+
+    //@Query(value = "select * from ides i order by linguagem asc", nativeQuery = true)
     @GetMapping("/Qnative")
-    public List<IDEs> qNative(){
-        return this.getRepository().findAllNative();
+    public List<IDEsDTO> qNative(){
+        var listQides= this.getRepository().findAllNative();
+
+        var idesDto = listQides.stream()
+                .map(idEs -> new IDEsDTO(idEs.getId(),
+                        idEs.getNome(),
+                        idEs.getLinguagem(),
+                        idEs.getEmpresa(),
+                        idEs.getIdLinguagem().stream().map(linguagem -> new LinguagemDTO(linguagem.getId(),
+                                linguagem.getLinguagem(),
+                                linguagem.getUso())).collect(Collectors.toList())
+                )).collect(Collectors.toList());
+        return idesDto;
+
     }
 
 }
