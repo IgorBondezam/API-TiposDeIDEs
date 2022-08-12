@@ -24,6 +24,6 @@ public class Linguagem implements Serializable, CrudDomain<Long> {
 
     @ManyToOne
     @JoinColumn(name = "linguagem_id", referencedColumnName="id")
-    private IDEs linguagem_id;
+    private IDEs linguagemId;
 
 }

@@ -11,7 +11,7 @@ public class LinguagemService extends CrudService<Linguagem, Long> {
 
         pegar.setLinguagem(entidade.getLinguagem());
         pegar.setUso(entidade.getUso());
-        pegar.setLinguagem_id(entidade.getLinguagem_id());
+        pegar.setLinguagemId(entidade.getLinguagemId());
 
         return pegar;
     }
