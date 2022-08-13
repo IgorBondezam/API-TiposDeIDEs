@@ -21,6 +21,6 @@ public class IDEsDTO implements Serializable {
     private String linguagem;
     private String empresa;
 
-    private List<LinguagemDTO> linguagem_id = new ArrayList<>();
+    private List<LinguagemDTO> idLinguagem = new ArrayList<>();
 
 }
